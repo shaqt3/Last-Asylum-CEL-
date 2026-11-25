@@ -1,73 +1,74 @@
--- Contenido inicial de ejemplo. R4/R5 pueden editarlo o borrarlo desde la app.
+-- Starter content. R4/R5 can edit or delete it from the app.
 
-insert into public.guides (title, category, pinned, sort, body)
+insert into public.guides (title, category, pinned, sort, lang, body)
 select * from (values
 (
-  'Cómo usar esta app', 'basicos', true, 0,
-$md$## Bienvenida
-Esta app es la base de la alianza: **guías**, **calendario de eventos en tu hora local**, **chat**, **noticias** y **recordatorios** que llegan al móvil.
+  'How to use this app', 'basicos', true, 0, 'en',
+$md$## Welcome to the Asylum
+This app is the alliance's headquarters: **guides**, an **event calendar in your local time**, **chat**, **news** and **reminders** that reach your phone.
 
-## Primeros pasos
-1. Instálala: en Android, menú del navegador → *Instalar app*. En iPhone, Safari → *Compartir* → *Añadir a pantalla de inicio* (en iPhone las notificaciones **solo** funcionan instalada).
-2. Ve a **Ajustes** y pulsa **Activar notificaciones**. Usa *Enviar prueba* para comprobarlo.
-3. Revisa tu **zona horaria** en Ajustes. Todos los eventos se muestran en tu hora.
+## First steps
+1. Install it: on Android, browser menu → *Install app*. On iPhone, Safari → *Share* → *Add to Home Screen* (on iPhone notifications **only** work when installed).
+2. Go to **More → Settings** and tap **Enable notifications**. Use *Send test* to check.
+3. Check your **time zone** in Settings. Every event is shown in your own time.
+4. Prefer another language? Change it in Settings, and use the 🌐 button to translate guides and chat.
 
-## Avisos
-Cada evento avisa antes, durante y antes de terminar, según lo configuren R4/R5. Si un evento no te interesa, puedes silenciarlo en su ficha.
+## Alerts
+Each event alerts you before it starts, while it runs and before it ends, as configured by R4/R5. Not interested in an event? Mute it from its page.
 $md$
 ),
 (
-  'Escudos: cuándo y cómo', 'trucos', true, 1,
-$md$## Activar un escudo
-Toca tu base → **Escudo** → elige la duración.
+  'Shields: when and how', 'trucos', true, 1, 'en',
+$md$## Activating a shield
+Tap your base → **Shield** → pick the duration.
 
-## Consejos
-- No gastes gemas en escudos si puedes evitarlo: mira primero la **tienda de la alianza**.
-- Antes de desconectarte en días de guerra o eventos PvP, **pon escudo**.
-- Usa **Recordatorios → Temporizador de escudo** para que la app te avise antes de que caduque.
+## Tips
+- Avoid spending gems on shields: check the **alliance shop** first.
+- Before logging off on war days or PvP events, **shield up**.
+- Use **Reminders → Shield timer** so the app warns you before it expires.
 $md$
 ),
 (
-  'Duelo de alianzas', 'eventos', false, 2,
-$md$## Qué es
-Evento recurrente por fases: cada día puntúa una categoría distinta.
+  'Alliance Duel', 'eventos', false, 2, 'en',
+$md$## What it is
+A recurring event in phases: each day scores a different category.
 
-## Claves
-- Guarda aceleradores y recursos para la fase que los puntúa.
-- Mira el calendario de la app: R4/R5 apuntan qué toca cada día.
-- La última fase suele ser la de combate: **escudo** si no vas a participar.
+## Key points
+- Save speed-ups and resources for the phase that scores them.
+- Check the app calendar: R4/R5 note what each day is about.
+- The last phase is usually combat: **shield up** if you are not taking part.
 
-*(R4/R5: completad esta guía con las fases y prioridades de vuestra alianza.)*
+*(R4/R5: complete this guide with your alliance's phases and priorities.)*
 $md$
 ),
 (
-  'Caza / Hunt Battle', 'eventos', false, 3,
-$md$## Qué es
-Evento de alianza por oleadas que activa un **R4 o R5**. Hace falta un mínimo de miembros.
+  'Hunt Battle', 'eventos', false, 3, 'en',
+$md$## What it is
+An alliance wave event started by an **R4 or R5**. It needs a minimum number of members.
 
-## Claves
-- Conéctate a la hora que marque el calendario.
-- Ten las tropas curadas y las marchas listas antes del inicio.
+## Key points
+- Be online at the time shown in the calendar.
+- Have your troops healed and marches ready before it starts.
 
-*(R4/R5: añadid la hora habitual y la dificultad que elegís.)*
+*(R4/R5: add your usual time and chosen difficulty.)*
 $md$
 ),
 (
-  'Mejoras prioritarias', 'mejoras', false, 4,
-$md$## Orden recomendado (editable por R4/R5)
-1. Edificio principal / Santuario.
-2. Investigación de recursos y velocidad.
-3. Hospital y muralla.
-4. Héroes principales del equipo.
+  'Upgrade priorities', 'mejoras', false, 4, 'en',
+$md$## Suggested order (editable by R4/R5)
+1. Main building / Sanctuary.
+2. Resource and speed research.
+3. Hospital and walls.
+4. Your main heroes.
 $md$
 )
-) as v(title, category, pinned, sort, body)
+) as v(title, category, pinned, sort, lang, body)
 where not exists (select 1 from public.guides);
 
--- Evento de ejemplo (desactivado): escudo a las 02:00 hora del servidor
+-- Example event (inactive): shield window at 02:00 server time
 insert into public.events (title, description, checklist, start_time, duration_min, recurrence, weekdays,
                            remind_before, remind_during_every, remind_end_before, shield, active, color)
-select 'Ejemplo: ventana de escudo', 'Evento de ejemplo. Edítalo o bórralo.',
-       E'Poner escudo\nRecoger recursos\nTropas en el hospital curadas',
+select 'Example: shield window', 'Example event. Edit or delete it.',
+       E'Shield up\nCollect resources\nHeal troops in the hospital',
        '02:00', 120, 'weekly', '{6}', '{180,60,15}', 60, 15, true, false, '#3e63dd'
 where not exists (select 1 from public.events);
