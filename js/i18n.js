@@ -13,7 +13,7 @@ const S = {
     invite_code: 'Código de la alianza', invite_hint: 'Pídelo a un R4/R5. Sin código, un oficial tendrá que aprobarte.',
     have_account: '¿Ya tienes cuenta? Entra', no_account: '¿No tienes cuenta? Regístrate', logout: 'Cerrar sesión',
     check_email: 'Revisa tu email para confirmar la cuenta y luego entra.',
-    pending_title: 'Esperando aprobación', pending_text: 'Un R4 o R5 tiene que aprobar tu cuenta. Vuelve a entrar en un rato.',
+    pending_title: 'Esperando aprobación', pending_text: 'Tu cuenta espera la aprobación del líder o de un R4/R5. ¡Vuelve en un rato!',
     save: 'Guardar', cancel: 'Cancelar', delete: 'Borrar', edit: 'Editar', new: 'Nuevo', close: 'Cerrar',
     confirm_delete: '¿Seguro que quieres borrarlo?', saved: 'Guardado', error: 'Error', loading: 'Cargando…',
     translate: 'Traducir', original: 'Ver original', search: 'Buscar…', all: 'Todo',
@@ -28,6 +28,9 @@ const S = {
     notif_banner: 'Activa las notificaciones para recibir los avisos de eventos en tu móvil.',
     install: 'Instalar app',
     theme: 'Tema', theme_auto: 'Automático', theme_light: 'Claro (pergamino)', theme_dark: 'Oscuro (latón)',
+    doc_idle: 'Bienvenido al Asilo. Identifícate, viajero.', doc_email: 'Mmm… ¿quién llama a mi puerta?',
+    doc_pass: '¡No miro, no miro! Palabra de doctor. 🙈', doc_peek: 'Bueno… solo un poquito. 👀',
+    doc_error: '¡Diagnóstico: contraseña equivocada! Inténtalo otra vez.', not_configured: 'Falta configurar Supabase en js/config.js.',
     shield_timer: 'Temporizador de escudo', shield_ends_in: 'Mi escudo termina en', hours: 'horas', minutes: 'minutos',
     alert_before: 'Avisarme antes', create_alerts: 'Crear avisos', shield_title: 'Tu escudo caduca',
     my_reminders: 'Mis recordatorios', new_reminder: 'Nuevo recordatorio', no_reminders: 'No tienes recordatorios pendientes.',
@@ -70,7 +73,7 @@ const S = {
     invite_code: 'Alliance code', invite_hint: 'Ask an R4/R5. Without a code an officer must approve you.',
     have_account: 'Already have an account? Log in', no_account: 'No account? Sign up', logout: 'Log out',
     check_email: 'Check your email to confirm your account, then log in.',
-    pending_title: 'Waiting for approval', pending_text: 'An R4 or R5 must approve your account. Come back in a while.',
+    pending_title: 'Waiting for approval', pending_text: 'Your account is waiting for approval from the leader or an R4/R5. Come back in a while!',
     save: 'Save', cancel: 'Cancel', delete: 'Delete', edit: 'Edit', new: 'New', close: 'Close',
     confirm_delete: 'Delete this?', saved: 'Saved', error: 'Error', loading: 'Loading…',
     translate: 'Translate', original: 'Show original', search: 'Search…', all: 'All',
@@ -85,6 +88,9 @@ const S = {
     notif_banner: 'Enable notifications to get event alerts on your phone.',
     install: 'Install app',
     theme: 'Theme', theme_auto: 'Automatic', theme_light: 'Light (parchment)', theme_dark: 'Dark (brass)',
+    doc_idle: 'Welcome to the Asylum. State your name, traveller.', doc_email: 'Hmm… who knocks at my door?',
+    doc_pass: 'I\'m not looking, I swear! Doctor\'s honour. 🙈', doc_peek: 'Well… maybe just a little peek. 👀',
+    doc_error: 'Diagnosis: wrong password! Try again.', not_configured: 'Supabase is not configured yet in js/config.js.',
     shield_timer: 'Shield timer', shield_ends_in: 'My shield ends in', hours: 'hours', minutes: 'minutes',
     alert_before: 'Alert me before', create_alerts: 'Create alerts', shield_title: 'Your shield is expiring',
     my_reminders: 'My reminders', new_reminder: 'New reminder', no_reminders: 'No pending reminders.',
@@ -127,7 +133,7 @@ const S = {
     invite_code: 'İttifak kodu', invite_hint: 'Bir R4/R5\'ten iste. Kod olmadan bir subay onaylamalı.',
     have_account: 'Hesabın var mı? Giriş yap', no_account: 'Hesabın yok mu? Kayıt ol', logout: 'Çıkış',
     check_email: 'Hesabını onaylamak için e-postanı kontrol et, sonra giriş yap.',
-    pending_title: 'Onay bekleniyor', pending_text: 'Hesabını bir R4 veya R5 onaylamalı. Biraz sonra tekrar gel.',
+    pending_title: 'Onay bekleniyor', pending_text: 'Hesabın liderin veya bir R4/R5\'in onayını bekliyor. Biraz sonra gel!',
     save: 'Kaydet', cancel: 'İptal', delete: 'Sil', edit: 'Düzenle', new: 'Yeni', close: 'Kapat',
     confirm_delete: 'Silinsin mi?', saved: 'Kaydedildi', error: 'Hata', loading: 'Yükleniyor…',
     translate: 'Çevir', original: 'Orijinali göster', search: 'Ara…', all: 'Hepsi',
@@ -142,6 +148,9 @@ const S = {
     notif_banner: 'Etkinlik uyarılarını telefonunda almak için bildirimleri aç.',
     install: 'Uygulamayı yükle',
     theme: 'Tema', theme_auto: 'Otomatik', theme_light: 'Açık (parşömen)', theme_dark: 'Koyu (pirinç)',
+    doc_idle: 'Akıl Hastanesine hoş geldin. Kendini tanıt, yolcu.', doc_email: 'Hmm… kapımı kim çalıyor?',
+    doc_pass: 'Bakmıyorum, yemin ederim! Doktor sözü. 🙈', doc_peek: 'Peki… sadece biraz. 👀',
+    doc_error: 'Teşhis: yanlış şifre! Tekrar dene.', not_configured: 'Supabase henüz js/config.js içinde ayarlanmadı.',
     shield_timer: 'Kalkan zamanlayıcı', shield_ends_in: 'Kalkanım şu kadar sonra bitiyor', hours: 'saat', minutes: 'dakika',
     alert_before: 'Önceden uyar', create_alerts: 'Uyarı oluştur', shield_title: 'Kalkanın bitiyor',
     my_reminders: 'Hatırlatıcılarım', new_reminder: 'Yeni hatırlatıcı', no_reminders: 'Bekleyen hatırlatıcı yok.',
@@ -184,7 +193,7 @@ const S = {
     invite_code: 'Allianz-Code', invite_hint: 'Frag einen R4/R5. Ohne Code muss dich ein Offizier freischalten.',
     have_account: 'Schon ein Konto? Anmelden', no_account: 'Kein Konto? Registrieren', logout: 'Abmelden',
     check_email: 'Bestätige dein Konto per E-Mail und melde dich dann an.',
-    pending_title: 'Warte auf Freigabe', pending_text: 'Ein R4 oder R5 muss dein Konto freigeben. Schau später wieder vorbei.',
+    pending_title: 'Warte auf Freigabe', pending_text: 'Dein Konto wartet auf die Freigabe durch den Anführer oder einen R4/R5. Schau später wieder vorbei!',
     save: 'Speichern', cancel: 'Abbrechen', delete: 'Löschen', edit: 'Bearbeiten', new: 'Neu', close: 'Schließen',
     confirm_delete: 'Wirklich löschen?', saved: 'Gespeichert', error: 'Fehler', loading: 'Lädt…',
     translate: 'Übersetzen', original: 'Original zeigen', search: 'Suchen…', all: 'Alle',
@@ -199,6 +208,9 @@ const S = {
     notif_banner: 'Aktiviere Benachrichtigungen, um Event-Alarme aufs Handy zu bekommen.',
     install: 'App installieren',
     theme: 'Design', theme_auto: 'Automatisch', theme_light: 'Hell (Pergament)', theme_dark: 'Dunkel (Messing)',
+    doc_idle: 'Willkommen im Asyl. Nenne deinen Namen, Reisender.', doc_email: 'Hmm… wer klopft an meine Tür?',
+    doc_pass: 'Ich schaue nicht, versprochen! Ehrenwort eines Doktors. 🙈', doc_peek: 'Na gut… nur ein kleines bisschen. 👀',
+    doc_error: 'Diagnose: falsches Passwort! Versuch es noch einmal.', not_configured: 'Supabase ist in js/config.js noch nicht eingerichtet.',
     shield_timer: 'Schild-Timer', shield_ends_in: 'Mein Schild endet in', hours: 'Stunden', minutes: 'Minuten',
     alert_before: 'Vorher erinnern', create_alerts: 'Alarme erstellen', shield_title: 'Dein Schild läuft ab',
     my_reminders: 'Meine Erinnerungen', new_reminder: 'Neue Erinnerung', no_reminders: 'Keine offenen Erinnerungen.',
@@ -241,7 +253,7 @@ const S = {
     invite_code: "Code d'alliance", invite_hint: 'Demande-le à un R4/R5. Sans code, un officier doit te valider.',
     have_account: 'Déjà un compte ? Connexion', no_account: 'Pas de compte ? Inscris-toi', logout: 'Déconnexion',
     check_email: 'Vérifie ton e-mail pour confirmer le compte, puis connecte-toi.',
-    pending_title: 'En attente de validation', pending_text: 'Un R4 ou R5 doit valider ton compte. Reviens plus tard.',
+    pending_title: 'En attente de validation', pending_text: 'Ton compte attend la validation du chef ou d\'un R4/R5. Reviens plus tard !',
     save: 'Enregistrer', cancel: 'Annuler', delete: 'Supprimer', edit: 'Modifier', new: 'Nouveau', close: 'Fermer',
     confirm_delete: 'Supprimer ?', saved: 'Enregistré', error: 'Erreur', loading: 'Chargement…',
     translate: 'Traduire', original: "Voir l'original", search: 'Rechercher…', all: 'Tout',
@@ -256,6 +268,9 @@ const S = {
     notif_banner: 'Active les notifications pour recevoir les alertes sur ton téléphone.',
     install: "Installer l'app",
     theme: 'Thème', theme_auto: 'Automatique', theme_light: 'Clair (parchemin)', theme_dark: 'Sombre (laiton)',
+    doc_idle: 'Bienvenue à l\'Asile. Présente-toi, voyageur.', doc_email: 'Hmm… qui frappe à ma porte ?',
+    doc_pass: 'Je ne regarde pas, promis ! Parole de docteur. 🙈', doc_peek: 'Bon… juste un petit coup d\'œil. 👀',
+    doc_error: 'Diagnostic : mauvais mot de passe ! Réessaie.', not_configured: 'Supabase n\'est pas encore configuré dans js/config.js.',
     shield_timer: 'Minuteur de bouclier', shield_ends_in: 'Mon bouclier finit dans', hours: 'heures', minutes: 'minutes',
     alert_before: "M'alerter avant", create_alerts: 'Créer les alertes', shield_title: 'Ton bouclier expire',
     my_reminders: 'Mes rappels', new_reminder: 'Nouveau rappel', no_reminders: 'Aucun rappel en attente.',
@@ -298,7 +313,7 @@ const S = {
     invite_code: 'Código da aliança', invite_hint: 'Pede a um R4/R5. Sem código, um oficial tem de te aprovar.',
     have_account: 'Já tens conta? Entra', no_account: 'Sem conta? Regista-te', logout: 'Sair',
     check_email: 'Confirma a conta no teu email e depois entra.',
-    pending_title: 'À espera de aprovação', pending_text: 'Um R4 ou R5 tem de aprovar a tua conta. Volta mais tarde.',
+    pending_title: 'À espera de aprovação', pending_text: 'A tua conta espera a aprovação do líder ou de um R4/R5. Volta mais tarde!',
     save: 'Guardar', cancel: 'Cancelar', delete: 'Apagar', edit: 'Editar', new: 'Novo', close: 'Fechar',
     confirm_delete: 'Apagar?', saved: 'Guardado', error: 'Erro', loading: 'A carregar…',
     translate: 'Traduzir', original: 'Ver original', search: 'Procurar…', all: 'Tudo',
@@ -313,6 +328,9 @@ const S = {
     notif_banner: 'Ativa as notificações para receberes os alertas no telemóvel.',
     install: 'Instalar app',
     theme: 'Tema', theme_auto: 'Automático', theme_light: 'Claro (pergaminho)', theme_dark: 'Escuro (latão)',
+    doc_idle: 'Bem-vindo ao Asilo. Identifica-te, viajante.', doc_email: 'Hmm… quem bate à minha porta?',
+    doc_pass: 'Não estou a olhar, juro! Palavra de doutor. 🙈', doc_peek: 'Bem… só uma espreitadela. 👀',
+    doc_error: 'Diagnóstico: senha errada! Tenta outra vez.', not_configured: 'O Supabase ainda não está configurado em js/config.js.',
     shield_timer: 'Temporizador de escudo', shield_ends_in: 'O meu escudo acaba em', hours: 'horas', minutes: 'minutos',
     alert_before: 'Avisar antes', create_alerts: 'Criar alertas', shield_title: 'O teu escudo está a acabar',
     my_reminders: 'Os meus lembretes', new_reminder: 'Novo lembrete', no_reminders: 'Sem lembretes pendentes.',
@@ -355,7 +373,7 @@ const S = {
     invite_code: 'Код альянса', invite_hint: 'Спроси у R4/R5. Без кода офицер должен одобрить тебя.',
     have_account: 'Уже есть аккаунт? Войти', no_account: 'Нет аккаунта? Регистрация', logout: 'Выйти',
     check_email: 'Подтверди аккаунт по email, затем войди.',
-    pending_title: 'Ожидает одобрения', pending_text: 'R4 или R5 должен одобрить твой аккаунт. Зайди позже.',
+    pending_title: 'Ожидает одобрения', pending_text: 'Твой аккаунт ждёт одобрения лидера или R4/R5. Зайди позже!',
     save: 'Сохранить', cancel: 'Отмена', delete: 'Удалить', edit: 'Изменить', new: 'Новое', close: 'Закрыть',
     confirm_delete: 'Удалить?', saved: 'Сохранено', error: 'Ошибка', loading: 'Загрузка…',
     translate: 'Перевести', original: 'Оригинал', search: 'Поиск…', all: 'Все',
@@ -370,6 +388,9 @@ const S = {
     notif_banner: 'Включи уведомления, чтобы получать оповещения на телефон.',
     install: 'Установить',
     theme: 'Тема', theme_auto: 'Авто', theme_light: 'Светлая (пергамент)', theme_dark: 'Тёмная (латунь)',
+    doc_idle: 'Добро пожаловать в Приют. Назовись, путник.', doc_email: 'Хм… кто стучится в мою дверь?',
+    doc_pass: 'Не смотрю, клянусь! Слово доктора. 🙈', doc_peek: 'Ну… только одним глазком. 👀',
+    doc_error: 'Диагноз: неверный пароль! Попробуй ещё раз.', not_configured: 'Supabase ещё не настроен в js/config.js.',
     shield_timer: 'Таймер щита', shield_ends_in: 'Мой щит закончится через', hours: 'часов', minutes: 'минут',
     alert_before: 'Напомнить заранее', create_alerts: 'Создать', shield_title: 'Твой щит заканчивается',
     my_reminders: 'Мои напоминания', new_reminder: 'Новое напоминание', no_reminders: 'Напоминаний нет.',
@@ -407,13 +428,12 @@ const S = {
   },
 };
 
-let current = 'es';
+let current = 'en';
 
 export function detectLang() {
+  // English is the main language; each member can pick another one.
   const saved = localStorage.getItem('la_lang');
-  if (saved && S[saved]) return saved;
-  const nav = (navigator.language || 'es').slice(0, 2).toLowerCase();
-  return S[nav] ? nav : 'en';
+  return saved && S[saved] ? saved : 'en';
 }
 
 export function setLang(l) {
