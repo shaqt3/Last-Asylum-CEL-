@@ -1,7 +1,7 @@
 /* =====================================================================
    Tema STEAMPUNK — latón, cobre, hierro y pergamino.
-   Modo oscuro (taller de calderas) y modo claro (pergamino), con
-   data-theme="dark" | "light" en <html>. Sin atributo, sigue al sistema.
+   Oscuro por defecto (taller de calderas); claro opcional (pergamino)
+   con data-theme="light" en <html>.
    ===================================================================== */
 
 :root {
@@ -16,10 +16,10 @@
 /* ---------- oscuro: hierro y latón ---------- */
 :root, [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #15100b;
-  --bg-2: #1d1610;
-  --surface: #241b13;
-  --surface-2: #2e2318;
+  --bg: #0e0a07;
+  --bg-2: #17110b;
+  --surface: #1e160f;
+  --surface-2: #2a1f15;
   --line: #5a4326;
   --text: #f0e3c6;
   --muted: #b39f7d;
@@ -32,7 +32,10 @@
   --danger: #d9503f;
   --warn: #e3a13c;
   --rivet: radial-gradient(circle at 35% 35%, #f6dc9a, #9b7429 55%, #4b3410 100%);
-  --paper: radial-gradient(ellipse at 50% 0%, #2b2016 0%, #15100b 70%);
+  --paper:
+    radial-gradient(ellipse at 50% -10%, #3a2818 0%, transparent 55%),
+    radial-gradient(ellipse at 100% 100%, #1d2a22 0%, transparent 45%),
+    #0e0a07;
   --shadow: 0 2px 0 #00000080, 0 10px 24px #00000066;
   --inset: inset 0 1px 0 #ffffff14, inset 0 -2px 6px #00000055;
 }
@@ -64,19 +67,8 @@
   --inset: inset 0 1px 0 #ffffffaa, inset 0 -2px 6px #8a662422;
 }
 
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) {
-    color-scheme: light;
-    --bg: #eadbb8; --bg-2: #e3d1a8; --surface: #f5ead0; --surface-2: #efe0bd; --line: #a9844a;
-    --text: #2c1f12; --muted: #6f5739; --brass: #9c7424; --brass-hi: #d8b25e; --brass-lo: #6b4c14;
-    --copper: #9b4a22; --verdigris: #2f7a6b; --ink-on-brass: #fff7e3; --danger: #b3321f; --warn: #a8640f;
-    --rivet: radial-gradient(circle at 35% 35%, #fff1c4, #b58a35 55%, #5b3f10 100%);
-    --paper: radial-gradient(ellipse at 20% 10%, #f6ead0 0%, transparent 60%), radial-gradient(ellipse at 80% 90%, #dcc596 0%, transparent 55%), #eadbb8;
-    --shadow: 0 1px 0 #ffffff99, 0 6px 16px #5b3f1033;
-    --inset: inset 0 1px 0 #ffffffaa, inset 0 -2px 6px #8a662422;
-  }
-}
 
+[hidden] { display: none !important; }
 * { box-sizing: border-box; }
 html, body { margin: 0; background: var(--bg); color: var(--text); }
 body {
@@ -321,3 +313,44 @@ details summary { cursor: pointer; font-family: var(--font-display); color: var(
 table.members { width: 100%; border-collapse: collapse; }
 table.members td { padding: 8px 4px; border-bottom: 1px dashed var(--line); vertical-align: middle; }
 pre { font-family: var(--font-mono); }
+
+/* ---------- doctor de la peste (pantalla de acceso) ---------- */
+.auth-stage { position: relative; display: flex; flex-direction: column; align-items: center; margin-bottom: 6px; }
+.doctor { width: 210px; height: 220px; overflow: visible; animation: doc-rise 1.4s cubic-bezier(.2, 1.4, .4, 1) both; filter: drop-shadow(0 10px 18px #000a); }
+.doctor .dg-head { transform-origin: 120px 140px; transition: transform .35s ease; }
+.doctor .dg-beak { transform-origin: 110px 125px; }
+.doctor .dg-pupil { transform: translateX(var(--px, 0)); transition: transform .15s; }
+.doctor .dg-glass { animation: doc-glow 2.6s ease-in-out infinite; }
+.doctor .dg-hand { transform-box: fill-box; transform-origin: 50% 100%; transform: translateY(150px); transition: transform .45s cubic-bezier(.3, 1.5, .5, 1); }
+.doctor .dg-hand-r { transition-delay: .05s; }
+.doctor.look .dg-head { transform: rotate(-5deg) translateY(2px); }
+.doctor.cover .dg-hand, .doctor.peek .dg-hand { transform: translateY(0); }
+.doctor.peek .dg-hand-l { transform: translate(-8px, 62px) rotate(-18deg); }
+.doctor.cover .dg-head, .doctor.peek .dg-head { transform: translateY(3px); }
+.doctor.giggle .dg-body { animation: doc-giggle .25s ease; }
+.doctor.shake .dg-head { animation: doc-shake .5s ease; }
+.doctor .dg-beak { animation: doc-sniff 5s ease-in-out infinite; }
+@keyframes doc-rise { 0% { opacity: 0; transform: translateY(70px) scale(.8); } 60% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+@keyframes doc-glow { 50% { filter: brightness(1.45) drop-shadow(0 0 6px #ff7a2a); } }
+@keyframes doc-giggle { 50% { transform: translateY(-3px) rotate(1deg); } }
+@keyframes doc-shake { 20%, 60% { transform: rotate(-8deg); } 40%, 80% { transform: rotate(8deg); } }
+@keyframes doc-sniff { 0%, 88%, 100% { transform: none; } 92% { transform: rotate(-4deg); } 96% { transform: rotate(3deg); } }
+.fog { position: absolute; bottom: -6px; left: 50%; width: 320px; height: 70px; transform: translateX(-50%); pointer-events: none;
+  background: radial-gradient(ellipse at 30% 60%, #b8a07a33, transparent 60%), radial-gradient(ellipse at 70% 50%, #8fb3a52a, transparent 60%);
+  filter: blur(8px); animation: fog 7s ease-in-out infinite alternate; }
+@keyframes fog { to { transform: translateX(-46%) scaleX(1.1); opacity: .7; } }
+.bubble {
+  position: relative; max-width: 300px; margin: 4px auto 14px; padding: 10px 16px; text-align: center;
+  font-family: var(--font-mono); font-size: 15px; color: var(--ink-on-brass);
+  background: linear-gradient(180deg, #f6e7c1, #e2c98f); border: 2px solid var(--brass-lo); border-radius: 14px;
+  box-shadow: 0 4px 12px #0008;
+}
+.bubble::before { content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+  border: 8px solid transparent; border-bottom-color: var(--brass-lo); border-top: 0; }
+.bubble.pop { animation: pop .35s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes pop { from { transform: scale(.7); opacity: 0; } }
+.pass-wrap { position: relative; }
+.pass-wrap input { padding-right: 46px; }
+.pass-wrap button { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none; border: 0; font-size: 20px; cursor: pointer; padding: 4px; }
+.setup-warn { border: 1px dashed var(--warn); color: var(--warn); border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; font-size: 14px; }
+@media (prefers-reduced-motion: reduce) { .doctor, .doctor * { animation: none !important; transition: none !important; } }
