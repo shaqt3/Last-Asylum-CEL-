@@ -2,6 +2,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 import { t, setLang, getLang, detectLang, LANGS } from './i18n.js';
 import { occurrences, triggersFor, fmt, fmtTime, zonedToUtc } from './schedule.js';
+import { doctorSVG, attachDoctor } from './doctor.js';
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
@@ -294,28 +295,20 @@ function applyStaticI18n() {
 // Tema claro / oscuro
 // =====================================================================
 function currentTheme() {
-  const saved = localStorage.getItem('la_theme');
-  if (saved === 'light' || saved === 'dark') return saved;
-  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  // Dark steampunk is the default; light (parchment) is optional.
+  return localStorage.getItem('la_theme') === 'light' ? 'light' : 'dark';
 }
 function applyTheme(mode) {
-  // mode: 'auto' | 'light' | 'dark'
-  if (mode === 'light' || mode === 'dark') {
-    localStorage.setItem('la_theme', mode);
-    document.documentElement.setAttribute('data-theme', mode);
-  } else {
-    localStorage.removeItem('la_theme');
-    document.documentElement.removeAttribute('data-theme');
-  }
+  // mode: 'light' | 'dark'
+  const m = mode === 'light' ? 'light' : 'dark';
+  localStorage.setItem('la_theme', m);
+  document.documentElement.setAttribute('data-theme', m);
   const eff = currentTheme();
   $('#theme-btn').textContent = eff === 'light' ? '☾' : '☀';
   $('#theme-btn').title = t('theme');
-  document.querySelector('meta[name="theme-color"]').setAttribute('content', eff === 'light' ? '#eadbb8' : '#15100b');
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', eff === 'light' ? '#eadbb8' : '#0e0a07');
 }
 $('#theme-btn').addEventListener('click', () => applyTheme(currentTheme() === 'light' ? 'dark' : 'light'));
-window.matchMedia('(prefers-color-scheme: light)').addEventListener?.('change', () => {
-  if (!localStorage.getItem('la_theme')) applyTheme('auto');
-});
 
 // =====================================================================
 // Router
@@ -341,33 +334,44 @@ window.addEventListener('hashchange', render);
 // =====================================================================
 // Pantallas: acceso
 // =====================================================================
+const notConfigured = () => SUPABASE_URL.includes('TU-PROYECTO') || SUPABASE_ANON_KEY.includes('PEGA-AQUI');
+
+function doctorLines() {
+  return { idle: t('doc_idle'), email: t('doc_email'), pass: t('doc_pass'), peek: t('doc_peek'), error: t('doc_error') };
+}
+
 function renderAuth(mode = 'login', notice = '') {
   $('#tabbar').hidden = true;
   const reg = mode === 'register';
   view().innerHTML = `
     <div class="auth">
-      <img class="logo" src="/icons/icon-512.png" alt="">
+      <div class="auth-stage">${doctorSVG()}<div class="fog"></div></div>
+      <div class="bubble" id="doc-bubble"></div>
       <h1 class="center" style="padding:0 0 12px">${esc(state.settings.alliance_name || 'Last Asylum')}</h1>
       <div class="row" style="justify-content:center;margin-bottom:14px">
         <select id="lang-pick" style="width:auto">${Object.entries(LANGS).map(([k, v]) => `<option value="${k}" ${k === getLang() ? 'selected' : ''}>${v}</option>`).join('')}</select>
       </div>
+      ${notConfigured() ? `<div class="setup-warn">⚙ ${t('not_configured')}</div>` : ''}
       ${notice ? `<div class="banner info">${esc(notice)}</div>` : ''}
       <form class="card" id="auth-form">
         <h2>${reg ? t('register') : t('login')}</h2>
-        ${reg ? `<div class="field"><label>${t('nick')}</label><input name="nick" required maxlength="40"></div>` : ''}
+        ${reg ? `<div class="field"><label>${t('nick')}</label><input name="nick" required maxlength="40" autocomplete="nickname"></div>` : ''}
         <div class="field"><label>${t('email')}</label><input name="email" type="email" required autocomplete="email"></div>
-        <div class="field"><label>${t('password')}</label><input name="password" type="password" required minlength="6" autocomplete="${reg ? 'new-password' : 'current-password'}"></div>
-        ${reg ? `<div class="field"><label>${t('invite_code')}</label><input name="invite" autocomplete="off"><div class="hint">${t('invite_hint')}</div></div>` : ''}
-        <button class="btn primary block">${reg ? t('register') : t('login')}</button>
+        <div class="field"><label>${t('password')}</label>
+          <div class="pass-wrap"><input name="password" type="password" required minlength="6" autocomplete="${reg ? 'new-password' : 'current-password'}"><button type="button" data-show-pass aria-label="Show password">👁</button></div></div>
+        ${reg ? `<p class="hint">${t('pending_text')}</p>` : ''}
+        <button class="btn primary block" type="submit">${reg ? t('register') : t('login')}</button>
       </form>
       <p class="center" style="padding:8px"><a href="#" id="auth-switch">${reg ? t('have_account') : t('no_account')}</a></p>
     </div>`;
+  const form = $('#auth-form');
+  const doctor = attachDoctor(view(), form, doctorLines());
   $('#lang-pick').onchange = (e) => { setLang(e.target.value); applyStaticI18n(); renderAuth(mode); };
   $('#auth-switch').onclick = (e) => { e.preventDefault(); renderAuth(reg ? 'login' : 'register'); };
-  $('#auth-form').onsubmit = async (e) => {
+  form.onsubmit = async (e) => {
     e.preventDefault();
     const f = Object.fromEntries(new FormData(e.target));
-    const btn = e.target.querySelector('button');
+    const btn = e.target.querySelector('button[type=submit]');
     btn.disabled = true;
     try {
       if (reg) {
@@ -375,7 +379,7 @@ function renderAuth(mode = 'login', notice = '') {
           email: f.email.trim(), password: f.password,
           options: {
             emailRedirectTo: location.origin,
-            data: { nick: f.nick.trim(), invite: (f.invite || '').trim(), lang: getLang(), tz: deviceTz() },
+            data: { nick: f.nick.trim(), lang: getLang(), tz: deviceTz() },
           },
         });
         if (error) throw error;
@@ -384,7 +388,7 @@ function renderAuth(mode = 'login', notice = '') {
         const { error } = await sb.auth.signInWithPassword({ email: f.email.trim(), password: f.password });
         if (error) throw error;
       }
-    } catch (err) { fail(err); } finally { btn.disabled = false; }
+    } catch (err) { doctor.error(); fail(err); } finally { btn.disabled = false; }
   };
 }
 
@@ -392,7 +396,7 @@ function renderPending() {
   $('#tabbar').hidden = true;
   view().innerHTML = `
     <div class="auth center">
-      <img class="logo" src="/icons/icon-512.png" alt="">
+      <div class="auth-stage">${doctorSVG()}<div class="fog"></div></div>
       <h1>${t('pending_title')}</h1>
       <p class="muted">${t('pending_text')}</p>
       <p><b>${esc(state.me?.nick || '')}</b></p>
@@ -1053,7 +1057,7 @@ routes.reminders = async () => {
 routes.more = async () => {
   view().innerHTML = `
     <div class="card row">
-      <img src="/icons/icon-192.png" style="width:44px;height:44px;border-radius:10px" alt="">
+      <img src="/icons/doctor.svg" style="width:48px;height:48px" alt="">
       <span class="grow"><b>${esc(state.me.nick)}</b> ${roleBadge(state.me.role)}<br><small>${esc(myTz())} · ${LANGS[getLang()]}</small></span>
     </div>
     <a class="card list-link" href="#/reminders">🔔 ${t('reminders')}</a>
@@ -1079,7 +1083,7 @@ routes.settings = async () => {
       <div class="field"><label>${t('timezone')}</label><select name="tz">${tzOptions(myTz())}</select>
         ${deviceTz() !== myTz() ? `<div class="hint">📱 ${esc(deviceTz())} — <a href="#" id="tz-dev">✓</a></div>` : ''}</div>
       <div class="field"><label>${t('theme')}</label>
-        <div class="chips">${['auto', 'light', 'dark'].map((m) => `<button type="button" class="chip ${(localStorage.getItem('la_theme') || 'auto') === m ? 'on' : ''}" data-theme-pick="${m}">${t(`theme_${m}`)}</button>`).join('')}</div></div>
+        <div class="chips">${['dark', 'light'].map((m) => `<button type="button" class="chip ${currentTheme() === m ? 'on' : ''}" data-theme-pick="${m}">${t(`theme_${m}`)}</button>`).join('')}</div></div>
       <button class="btn primary block">${t('save')}</button>
     </form>
 
@@ -1142,16 +1146,10 @@ routes.admin = async (tab = 'members') => {
         <tr><td><b>${esc(p.nick)}</b> ${roleBadge(p.role)}<br><small>${esc(p.tz)} · ${esc(p.lang)}</small></td>
         <td style="width:110px">${isR5() && p.id !== state.me.id ? `<select data-role="${p.id}">${ROLES.map((r) => `<option value="${r}" ${p.role === r ? 'selected' : ''}>${r.toUpperCase()}</option>`).join('')}</select>` : ''}</td>
         <td style="width:44px">${p.id !== state.me.id && (isR5() || p.role === 'member') ? `<button class="btn small danger" data-kick="${p.id}" title="${t('remove')}">✕</button>` : ''}</td></tr>`).join('')}</table>
-      ${isR5() ? `<form class="card" id="inv-f" style="margin-top:16px"><label>${t('invite_code_admin')}</label>
-        <div class="row"><input name="invite_code" value="${esc(priv.invite_code || '')}" autocomplete="off"><button class="btn primary">${t('save')}</button></div></form>` : ''}`;
+`;
     for (const b of $$('[data-approve]', body)) b.onclick = async () => { const { error } = await sb.from('profiles').update({ role: 'member' }).eq('id', b.dataset.approve); if (error) fail(error); else render(); };
     for (const b of $$('[data-kick]', body)) b.onclick = async () => { if (!confirm(t('confirm_delete'))) return; const { error } = await sb.from('profiles').delete().eq('id', b.dataset.kick); if (error) fail(error); else render(); };
     for (const sel of $$('[data-role]', body)) sel.onchange = async () => { const { error } = await sb.from('profiles').update({ role: sel.value }).eq('id', sel.dataset.role); if (error) fail(error); else toast(t('saved')); };
-    $('#inv-f', body)?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const { error } = await sb.from('private_settings').update({ invite_code: e.target.invite_code.value.trim() }).eq('id', 1);
-      if (error) fail(error); else toast(t('saved'));
-    });
   }
 
   if (tab === 'alerts') {
@@ -1305,7 +1303,7 @@ async function start() {
 
 setLang(detectLang());
 applyStaticI18n();
-applyTheme(localStorage.getItem('la_theme') || 'auto');
+applyTheme(localStorage.getItem('la_theme') || 'dark');
 setInterval(tickClock, 30_000);
 let lastAuthUser;
 sb.auth.onAuthStateChange((event, session) => {
