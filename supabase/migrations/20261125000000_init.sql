@@ -18,7 +18,7 @@ create table if not exists public.profiles (
   id          uuid primary key references auth.users(id) on delete cascade,
   nick        text not null,
   role        text not null default 'pending' check (role in ('pending','member','r4','r5')),
-  lang        text not null default 'es',
+  lang        text not null default 'en',
   tz          text not null default 'UTC',
   created_at  timestamptz not null default now()
 );
@@ -43,7 +43,7 @@ $$;
 -- ---------------------------------------------------------------------
 create table if not exists public.app_settings (
   id               int primary key default 1 check (id = 1),
-  alliance_name    text not null default 'Mi alianza',
+  alliance_name    text not null default 'Last Asylum',
   alliance_tag     text not null default '',
   server_tz        text not null default 'UTC',
   welcome          text not null default '',
@@ -55,6 +55,7 @@ insert into public.app_settings (id) values (1) on conflict do nothing;
 
 create table if not exists public.private_settings (
   id                   int primary key default 1 check (id = 1),
+  owner_email          text not null default 'angeddgg@gmail.com', -- entra como R5
   invite_code          text not null default '',
   contact_email        text not null default 'mailto:admin@example.com',
   vapid_private_jwk    jsonb,
@@ -71,22 +72,19 @@ create table if not exists public.private_settings (
 insert into public.private_settings (id) values (1) on conflict do nothing;
 
 -- ---------------------------------------------------------------------
--- Alta de usuarios: el primero es R5; con código de invitación correcto
--- entra como miembro; si no, queda pendiente de aprobación.
+-- Alta de usuarios: cualquiera puede registrarse, pero entra como
+-- PENDIENTE hasta que la líder o un R4/R5 lo apruebe. El email de la
+-- dueña de la app (owner_email) entra directamente como R5.
 -- ---------------------------------------------------------------------
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
 declare
-  v_count int;
-  v_code  text;
+  v_owner text;
   v_role  text;
 begin
-  select count(*) into v_count from public.profiles;
-  select invite_code into v_code from public.private_settings where id = 1;
-  if v_count = 0 then
+  select lower(owner_email) into v_owner from public.private_settings where id = 1;
+  if v_owner is not null and lower(new.email) = v_owner then
     v_role := 'r5';
-  elsif coalesce(v_code,'') <> '' and new.raw_user_meta_data->>'invite' = v_code then
-    v_role := 'member';
   else
     v_role := 'pending';
   end if;
@@ -96,7 +94,7 @@ begin
     new.id,
     coalesce(nullif(new.raw_user_meta_data->>'nick',''), split_part(new.email,'@',1)),
     v_role,
-    coalesce(nullif(new.raw_user_meta_data->>'lang',''), 'es'),
+    coalesce(nullif(new.raw_user_meta_data->>'lang',''), 'en'),
     coalesce(nullif(new.raw_user_meta_data->>'tz',''), 'UTC')
   );
   return new;
@@ -141,7 +139,7 @@ create table if not exists public.guides (
   title       text not null,
   category    text not null default 'eventos',
   body        text not null default '',
-  lang        text not null default 'es',
+  lang        text not null default 'en',
   pinned      boolean not null default false,
   sort        int not null default 0,
   author_id   uuid references public.profiles(id) on delete set null,
