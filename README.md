@@ -2,7 +2,9 @@
 
 Guía, calendario de eventos **en la hora local de cada miembro**, avisos push al móvil (antes, durante y al terminar), chat con traducción, recordatorios personales (temporizador de escudo), noticias, roles **R4/R5** y conexión con **Discord** en los dos sentidos.
 
-Diseño **steampunk** (latón, cobre y pergamino) con **modo claro y oscuro**: botón ☀/☾ arriba a la derecha o en Ajustes (también puede seguir al sistema).
+Diseño **steampunk oscuro** (hierro, latón y cobre), con modo claro opcional (botón ☀/☾). En la entrada, un **doctor de la peste** veneciano sale de la niebla, te sigue con la mirada mientras escribes el email y **se tapa los ojos** cuando escribes la contraseña (si pulsas 👁, espía con un ojo).
+
+Idioma principal: **inglés**; cada miembro puede elegir otro en Ajustes.
 
 Idiomas de la interfaz: español, inglés, turco, alemán, francés, portugués y ruso. Los textos (guías, chat, noticias) se traducen con un botón 🌐 o automáticamente en el chat.
 
@@ -47,10 +49,13 @@ Después: pestaña **Actions → Supabase deploy → Run workflow**. Crea las ta
 **Vercel → Add New → Project →** elige `Last-Asylum-CEL-` → Framework: **Other**, sin comando de build → **Deploy**. Cada cambio en GitHub se publica solo.
 
 ### 4. Primer arranque (desde la app)
-1. Abre la app y **crea tu cuenta**: la primera persona registrada es **R5** automáticamente.
+1. Abre la app y **crea tu cuenta** con `angeddgg@gmail.com` y tu contraseña: ese email entra **directamente como R5**.
+   - Cuentas de prueba: regístrate también con `adminuser@admin.com` (entra como **R5**) y con `testuser@test.com` (entra **pendiente**, apruébala desde Admin → Miembros para probar el flujo de un miembro normal).
+   - Para que estas cuentas de prueba funcionen sin email real, desactiva **Confirm email** (paso 1.4).
+   - La lista de emails que entran como R5 está en la tabla `private_settings`, campo `owner_email` (separados por comas). Borra `adminuser@admin.com` de ahí cuando acabes las pruebas.
 2. **Más → Admin → Sistema de avisos**: escribe tu email y pulsa **Activar sistema de avisos**. Esto genera las claves de notificación y la tarea que revisa los eventos cada minuto. Acepta el permiso de notificaciones.
 3. **Admin → Alianza**: nombre, etiqueta, **zona horaria del servidor del juego** (normalmente UTC) y mensaje de bienvenida.
-4. **Admin → Miembros**: pon un **código de invitación**. Quien se registre con él entra directo; sin código queda pendiente y un R4/R5 lo aprueba. Aquí también nombras a los R4.
+4. **Admin → Miembros**: cualquiera puede registrarse, pero entra **pendiente** hasta que tú o un R4/R5 lo aprobéis. Aquí también nombras a los R4.
 5. **Ajustes → Enviar prueba** para comprobar que llegan las notificaciones.
 
 ---
