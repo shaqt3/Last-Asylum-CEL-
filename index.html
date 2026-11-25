@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="es">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#15100b">
-  <meta name="description" content="Guía, eventos y avisos de la alianza en Last Asylum">
+  <meta name="theme-color" content="#0e0a07">
+  <meta name="description" content="Last Asylum alliance guide, events and alerts">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Last Asylum · Alianza</title>
+  <title>Last Asylum · Alliance</title>
   <script>
     // Aplica el tema guardado antes de pintar (evita parpadeo).
     (function () {
       try {
-        var t = localStorage.getItem('la_theme');
-        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        var t = localStorage.getItem('la_theme') === 'light' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', t);
       } catch (e) {}
     })();
   </script>
@@ -21,16 +21,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap">
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="icon" href="/icons/icon-192.png">
+  <link rel="icon" href="/icons/doctor.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
   <header class="topbar">
-    <a href="#/home" class="brand"><img src="/icons/icon-192.png" alt=""><span id="brand-name">Last Asylum</span></a>
+    <a href="#/home" class="brand"><img src="/icons/doctor.svg" alt=""><span id="brand-name">Last Asylum</span></a>
     <div class="top-right">
       <div class="clock" id="clock"></div>
-      <button class="theme-btn" id="theme-btn" type="button" aria-label="Tema">☾</button>
+      <button class="theme-btn" id="theme-btn" type="button" aria-label="Theme">☀</button>
     </div>
   </header>
 
