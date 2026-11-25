@@ -1,0 +1,10 @@
+project_id = "last-asylum-alliance"
+
+# Configuración mínima para `supabase functions deploy` / `supabase db push`.
+# Las dos funciones comprueban la autorización por su cuenta.
+
+[functions.tick]
+verify_jwt = false
+
+[functions.api]
+verify_jwt = false
