@@ -1,0 +1,32 @@
+# Despliega la base de datos y las funciones en Supabase automáticamente
+# cada vez que cambia algo dentro de /supabase (o al lanzarlo a mano).
+# Necesita 3 secretos en GitHub → Settings → Secrets and variables → Actions:
+#   SUPABASE_ACCESS_TOKEN  (supabase.com/dashboard/account/tokens)
+#   SUPABASE_PROJECT_ID    (el "Reference ID" del proyecto)
+#   SUPABASE_DB_PASSWORD   (la contraseña de la base de datos que elegiste al crearlo)
+name: Supabase deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['supabase/**']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Link
+        run: supabase link --project-ref "$PROJECT_ID" --password "$SUPABASE_DB_PASSWORD"
+      - name: Base de datos
+        run: supabase db push --password "$SUPABASE_DB_PASSWORD"
+      - name: Funciones
+        run: supabase functions deploy --project-ref "$PROJECT_ID"
