@@ -1,8 +1,8 @@
 // Service worker: funciona sin conexión y recibe las notificaciones push.
-const VERSION = 'la-v1';
+const VERSION = 'la-v2';
 const SHELL = [
-  '/', '/index.html', '/css/styles.css', '/js/app.js', '/js/i18n.js', '/js/schedule.js', '/js/config.js',
-  '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/badge-72.png',
+  '/', '/index.html', '/css/styles.css', '/js/app.js', '/js/i18n.js', '/js/schedule.js', '/js/config.js', '/js/doctor.js',
+  '/manifest.webmanifest', '/icons/doctor.svg', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/badge-72.png',
 ];
 
 self.addEventListener('install', (e) => {
