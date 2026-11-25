@@ -55,7 +55,7 @@ insert into public.app_settings (id) values (1) on conflict do nothing;
 
 create table if not exists public.private_settings (
   id                   int primary key default 1 check (id = 1),
-  owner_email          text not null default 'angeddgg@gmail.com', -- entra como R5
+  owner_email          text not null default 'angeddgg@gmail.com, adminuser@admin.com', -- emails que entran como R5 (separados por comas)
   invite_code          text not null default '',
   contact_email        text not null default 'mailto:admin@example.com',
   vapid_private_jwk    jsonb,
@@ -74,7 +74,8 @@ insert into public.private_settings (id) values (1) on conflict do nothing;
 -- ---------------------------------------------------------------------
 -- Alta de usuarios: cualquiera puede registrarse, pero entra como
 -- PENDIENTE hasta que la líder o un R4/R5 lo apruebe. El email de la
--- dueña de la app (owner_email) entra directamente como R5.
+-- dueña de la app y de la cuenta admin de pruebas (owner_email, lista
+-- separada por comas) entran directamente como R5.
 -- ---------------------------------------------------------------------
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
@@ -82,8 +83,8 @@ declare
   v_owner text;
   v_role  text;
 begin
-  select lower(owner_email) into v_owner from public.private_settings where id = 1;
-  if v_owner is not null and lower(new.email) = v_owner then
+  select lower(replace(owner_email, ' ', '')) into v_owner from public.private_settings where id = 1;
+  if v_owner is not null and lower(new.email) = any(string_to_array(v_owner, ',')) then
     v_role := 'r5';
   else
     v_role := 'pending';
